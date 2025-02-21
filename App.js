@@ -1,20 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Text, SafeAreaView, StyleSheet, TextInput, FlatList } from "react-native";
+import db from "./db.json";
+import Products from "./src/components/Products";
 
-export default function App() {
+
+const App = () => {
+
+  const  [text, onChangeText] = React.useState('Ara.. ');
+  const renderPati = ({item}) => <Products pati={item} />
+
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.headerText}>PATIKASTORE</Text>
+      <TextInput style={styles.input} onChangeText={onChangeText} value={text} />
+      <FlatList 
+          keyExtractor={item=>item.id.toString()}
+          data={db}
+          renderItem={renderPati}
+          numColumns={2}
+      />
+
+      
+    </SafeAreaView>
+  )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    marginTop:50,
   },
-});
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: '#cd5c5c',
+    padding: 5
+  },
+  input: {
+    height: 40,
+    margin: 10,
+    backgroundColor: '#f8f8ff',
+    color: '#dcdcdc',
+    padding: 10,
+    borderRadius: 5,
+  }
+})
+
+export default App;
